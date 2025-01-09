@@ -1,0 +1,33 @@
+.weekly-grid-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh; /* Adjust as needed */
+}
+
+.weekly-grid-table {
+    border-collapse: collapse;
+    width: auto;
+    margin: auto;
+    text-align: center;
+    border: 1px solid black;
+}
+
+.weekly-grid-table th,
+.weekly-grid-table td {
+    padding: 10px;
+    border: 1px solid black;
+    width: 4vw;
+}
+
+.weekly-grid-table th {
+    background-color: #f0f0f0;
+}
+
+.weekly-grid-table td {
+    transition: background-color 0.3s ease;
+}
+
+.weekly-grid-table td:hover {
+    opacity: 0.8;
+}
