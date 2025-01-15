@@ -1,81 +1,99 @@
 .weekly-grid-container {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh; /* Adjust as needed */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh; /* Adjust as needed */
 }
 
 .weekly-grid-table {
-    border-collapse: collapse;    
-    width: 90%;
-    height: 70%;
-    margin: auto;
-    text-align: center;
-    border: 1px solid black;
+  border-collapse: collapse;
+  width: 90%;
+  height: 70%;
+  margin: auto;
+  text-align: center;
+  border: 1px solid black;
 }
 
 .weekly-grid-table th,
 .weekly-grid-table td {
-    padding: 0.5rem;
-    border: 1px solid black;
-    width: 4vw;
-}
-
-.weekly-grid-table th {
-    background-color: #f0f0f0;
+  padding: 0.5rem;
+  border: 1px solid black;
+  width: 4vw;
 }
 
 .weekly-grid-table td {
-    transition: background-color 0.3s ease;
+  transition: background-color 0.3s ease;
 }
 
 .weekly-grid-table td:hover {
-    opacity: 0.8;
+  opacity: 0.8;
 }
 
 .classrooms-grid-container {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
-.busy-cell {
-    background-color: #f73e3e;
+.classroom-grid-header,
+.classroom-grid-timeslot {
+  background-color: #ee3e8a !important; /* Company Color */
+  color: white;
+  padding: 0.5rem;
+  text-align: center;
+  min-width: 5rem;
 }
 
+h1 {
+  color: #ee3e8a; /* Company Color for the title */
+  text-align: center;
+}
+
+/* Free Cells */
 .free-cell {
-    background-color: #45fc0d;
+  background-color: #4caf50; /* Medium Green */
+  color: #000; /* Text color for visibility */
+  padding: 8px;
+  text-align: center;
+}
+
+/* Busy Cells */
+.busy-cell {
+  background-color: #f44336; /* Coral Red */
+  color: white; /* Text color for visibility */
+  padding: 8px;
+  text-align: center;
 }
 
 .pagination-container {
-    display: flex;
-    justify-content: center; /* Horizontally centers the buttons */
-    align-items: center; /* Vertically centers the buttons */
-    gap: 10px; /* Adds space between buttons */
-    margin-top: 20px; /* Optional: Adds space above the pagination */
-  }
-  
-  .pagination-button {
-    padding: 8px 16px;
-    border-radius: 4px;
-    border: 1px solid #ccc;
-    cursor: pointer;
-    background-color: white;
-    transition: background-color 0.3s ease;
-  }
-  
-  .pagination-button.active {
-    background-color: #4CAF50 !important;
-    color: white;
-  }
-  
-  .pagination-button:hover:not(.active) {
-    background-color: #ddd;
-  }
-  
-  .pagination-button:disabled {
-    cursor: not-allowed;
-    background-color: #f2f2f2;
-    border-color: #ddd;
-  }
+  display: flex;
+  justify-content: center; /* Horizontally centers the buttons */
+  align-items: center; /* Vertically centers the buttons */
+  gap: 10px; /* Adds space between buttons */
+  margin-top: 20px; /* Optional: Adds space above the pagination */
+}
+
+.pagination-button {
+  padding: 8px 16px;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  cursor: pointer;
+  background-color: white;
+  transition: background-color 0.3s ease;
+}
+
+.pagination-button.active {
+  background-color: #ee3e8a !important;
+  color: white;
+}
+
+.pagination-button:hover:not(.active) {
+  background-color: #ddd;
+}
+
+.pagination-button:disabled {
+  cursor: not-allowed;
+  background-color: #f2f2f2;
+  border-color: #ddd;
+}

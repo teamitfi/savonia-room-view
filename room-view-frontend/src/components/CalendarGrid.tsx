@@ -137,7 +137,7 @@ const CalendarGrid: React.FC = () => {
     <div className="classrooms-grid-container">
       <h1>Calendar Availability</h1>
       <table border={1} className="weekly-grid-table">
-        <thead>
+        <thead className="classroom-grid-header">
           <tr>
             <th>Time</th>
             {currentColumns.map((user: any) => (
@@ -148,7 +148,7 @@ const CalendarGrid: React.FC = () => {
         <tbody>
           {timeSlots.map((slot, index) => (
             <tr key={index + "." + slot}>
-              <td>{slot}</td>
+              <td className="classroom-grid-timeslot">{slot}</td>
               {currentColumns.map((user) => {
                 const busy = isBusy(slot, user.userEvent);
                 return (
