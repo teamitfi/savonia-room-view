@@ -6,6 +6,10 @@ import { CalendarEvent, UserAvailability } from "../types/CalendarData";
 import { fetchCalendarData } from "../services/calendarService";
 
 dayjs.extend(isSameOrAfter);
+
+const DAY_START_HOUR = 7;
+const DAY_END_HOUR = 18;
+
 const generateTimeSlots = (start: string, end: string): string[] => {
   const slots: string[] = [];
   let current = dayjs(start);
@@ -13,7 +17,7 @@ const generateTimeSlots = (start: string, end: string): string[] => {
 
   while (current.isBefore(endTime)) {
     slots.push(current.format("HH:mm"));
-    current = current.add(60, "minute");
+    current = current.add(30, "minute");
   }
 
   return slots;
@@ -53,14 +57,26 @@ const CalendarGrid: React.FC = () => {
   if (error) return <p>Error: {error}</p>;
   if (!data) return <p>No data available.</p>;
 
+  // Generate the start and end times for today
+  const startOfDay = dayjs()
+    .startOf("day")
+    .set("hour", DAY_START_HOUR)
+    .set("minute", 0)
+    .set("second", 0);
+  const endOfDay = dayjs()
+    .startOf("day")
+    .set("hour", DAY_END_HOUR)
+    .set("minute", 0)
+    .set("second", 0);
+
+  // Generate time slots using the dynamic start and end times
   const timeSlots = generateTimeSlots(
-    "2025-01-15T07:00:00",
-    "2025-01-15T22:00:00"
+    startOfDay.toISOString(),
+    endOfDay.toISOString()
   );
 
   const isBusy = (timeSlot: string, userEvents: CalendarEvent[]): boolean => {
     const today = dayjs();
-    console.log("Time:", timeSlot);
     // Parse timeSlot and set it to today's date
     const time = dayjs()
       .set("hour", parseInt(timeSlot.split(":")[0]))
@@ -75,11 +91,7 @@ const CalendarGrid: React.FC = () => {
     return todayEvents.some((event) => {
       const eventStart = dayjs(event.StartTime); // Parse the event start time
       const eventEnd = dayjs(event.EndTime); // Parse the event end time
-      console.log("Time Slot 1:", time);
-      console.log("Time Slot:", time.format("HH:mm"));
-      console.log("Event Start:", eventStart.format("HH:mm"));
-      console.log("Event End:", eventEnd.format("HH:mm"));
-      console.log("Busy Type:", event.BusyType);
+
       // Check if the time falls within the event duration
       return (
         event.BusyType === "Busy" &&
