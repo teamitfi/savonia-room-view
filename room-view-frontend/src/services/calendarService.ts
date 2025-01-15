@@ -1,21 +1,13 @@
-import axios from "axios";
-import mockCalendarData from "../__mocks__/mockCalendarData.json";
-import { CalendarResponse } from "../types/CalendarData";
+import { UserAvailability } from "../types/CalendarData";
 
 // const API_URL = "<Your External URL>";
-const API_URL = "https://localhost:3000/calendar";
+const API_URL =
+  "https://classroomview-func.azurewebsites.net/api/getCalendarData?code=uqs8Zf76n5EcLAQ4qosrD2WJ5NOPxEMf-WGZo2U3LPoCAzFuEbIsVQ%3D%3D";
 
-export const fetchCalendarData = async (): Promise<CalendarResponse> => {
-    if (process.env.NODE_ENV === "development") {
-        console.log("Fetching mock data for development purposes.");
-        return mockCalendarData as CalendarResponse;
-    }
-
-    try {
-        const response = await axios.get<CalendarResponse>(API_URL);
-        return response.data;
-    } catch (error) {
-        console.error("Error fetching calendar data:", error);
-        throw error;
-    }
+export const fetchCalendarData = async (): Promise<{
+  success: boolean;
+  data: UserAvailability[];
+}> => {
+  const response = await fetch(API_URL);
+  return response.json();
 };
