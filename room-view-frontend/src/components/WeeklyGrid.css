@@ -33,6 +33,13 @@
     opacity: 0.8;
 }
 
+.classrooms-grid-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
 .busy-cell {
     background-color: #f73e3e;
 }
@@ -40,3 +47,35 @@
 .free-cell {
     background-color: #45fc0d;
 }
+
+.pagination-container {
+    display: flex;
+    justify-content: center; /* Horizontally centers the buttons */
+    align-items: center; /* Vertically centers the buttons */
+    gap: 10px; /* Adds space between buttons */
+    margin-top: 20px; /* Optional: Adds space above the pagination */
+  }
+  
+  .pagination-button {
+    padding: 8px 16px;
+    border-radius: 4px;
+    border: 1px solid #ccc;
+    cursor: pointer;
+    background-color: white;
+    transition: background-color 0.3s ease;
+  }
+  
+  .pagination-button.active {
+    background-color: #4CAF50 !important;
+    color: white;
+  }
+  
+  .pagination-button:hover:not(.active) {
+    background-color: #ddd;
+  }
+  
+  .pagination-button:disabled {
+    cursor: not-allowed;
+    background-color: #f2f2f2;
+    border-color: #ddd;
+  }

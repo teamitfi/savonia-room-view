@@ -7,9 +7,9 @@ import { fetchCalendarData } from "../services/calendarService";
 
 dayjs.extend(isSameOrAfter);
 
+const COLUMNS_PER_PAGE = 10; // Adjust the number of user columns per page
 const DAY_START_HOUR = 7;
 const DAY_END_HOUR = 18;
-const COLUMNS_PER_PAGE = 10; // Adjust the number of user columns per page
 
 const generateTimeSlots = (start: string, end: string): string[] => {
   const slots: string[] = [];
@@ -56,6 +56,21 @@ const CalendarGrid: React.FC = () => {
 
     fetchData();
   }, []);
+
+  // Set up automatic pagination every 30 seconds
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentPage((prevPage) => {
+        const totalColumns = data?.length || 0;
+        const totalPages = Math.ceil(totalColumns / COLUMNS_PER_PAGE);
+        const nextPage = prevPage === totalPages ? 1 : prevPage + 1;
+        return nextPage;
+      });
+    }, 30000); // Change page every 30 seconds
+
+    // Clear the interval when the component is unmounted
+    return () => clearInterval(interval);
+  }, [data]);
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;
@@ -119,7 +134,7 @@ const CalendarGrid: React.FC = () => {
   }
 
   return (
-    <div style={{ padding: "20px" }}>
+    <div className="classrooms-grid-container">
       <h1>Calendar Availability</h1>
       <table border={1} className="weekly-grid-table">
         <thead>
@@ -151,8 +166,9 @@ const CalendarGrid: React.FC = () => {
       </table>
 
       {/* Pagination Controls for Columns */}
-      <div style={{ marginTop: "10px" }}>
+      <div className="pagination-container">
         <button
+          className="pagination-button"
           onClick={() => setCurrentPage(currentPage - 1)}
           disabled={currentPage === 1}
         >
@@ -160,16 +176,17 @@ const CalendarGrid: React.FC = () => {
         </button>
         {pageNumbers.map((number) => (
           <button
+            className={`pagination-button ${
+              currentPage === number ? "active" : ""
+            }`}
             key={number}
             onClick={() => setCurrentPage(number)}
-            style={{
-              backgroundColor: currentPage === number ? "lightblue" : "white",
-            }}
           >
             {number}
           </button>
         ))}
         <button
+          className="pagination-button"
           onClick={() => setCurrentPage(currentPage + 1)}
           disabled={currentPage === totalPages}
         >
