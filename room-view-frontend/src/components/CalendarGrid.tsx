@@ -9,6 +9,7 @@ dayjs.extend(isSameOrAfter);
 
 const DAY_START_HOUR = 7;
 const DAY_END_HOUR = 18;
+const COLUMNS_PER_PAGE = 10; // Adjust the number of user columns per page
 
 const generateTimeSlots = (start: string, end: string): string[] => {
   const slots: string[] = [];
@@ -33,6 +34,9 @@ const CalendarGrid: React.FC = () => {
   const [data, setData] = useState<UserAvailability[] | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+
+  // Pagination state for columns
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,6 +105,19 @@ const CalendarGrid: React.FC = () => {
     });
   };
 
+  // Get the user columns for the current page
+  const indexOfLastColumn = currentPage * COLUMNS_PER_PAGE;
+  const indexOfFirstColumn = indexOfLastColumn - COLUMNS_PER_PAGE;
+  const currentColumns = data.slice(indexOfFirstColumn, indexOfLastColumn);
+
+  // Generate page numbers for columns
+  const totalColumns = data.length;
+  const totalPages = Math.ceil(totalColumns / COLUMNS_PER_PAGE);
+  const pageNumbers = [];
+  for (let i = 1; i <= totalPages; i++) {
+    pageNumbers.push(i);
+  }
+
   return (
     <div style={{ padding: "20px" }}>
       <h1>Calendar Availability</h1>
@@ -108,7 +125,7 @@ const CalendarGrid: React.FC = () => {
         <thead>
           <tr>
             <th>Time</th>
-            {data.map((user: any) => (
+            {currentColumns.map((user: any) => (
               <th key={user.userEmail}>{formatEmail(user.userEmail)}</th>
             ))}
           </tr>
@@ -117,7 +134,7 @@ const CalendarGrid: React.FC = () => {
           {timeSlots.map((slot, index) => (
             <tr key={index + "." + slot}>
               <td>{slot}</td>
-              {data.map((user) => {
+              {currentColumns.map((user) => {
                 const busy = isBusy(slot, user.userEvent);
                 return (
                   <td
@@ -132,6 +149,33 @@ const CalendarGrid: React.FC = () => {
           ))}
         </tbody>
       </table>
+
+      {/* Pagination Controls for Columns */}
+      <div style={{ marginTop: "10px" }}>
+        <button
+          onClick={() => setCurrentPage(currentPage - 1)}
+          disabled={currentPage === 1}
+        >
+          Previous
+        </button>
+        {pageNumbers.map((number) => (
+          <button
+            key={number}
+            onClick={() => setCurrentPage(number)}
+            style={{
+              backgroundColor: currentPage === number ? "lightblue" : "white",
+            }}
+          >
+            {number}
+          </button>
+        ))}
+        <button
+          onClick={() => setCurrentPage(currentPage + 1)}
+          disabled={currentPage === totalPages}
+        >
+          Next
+        </button>
+      </div>
     </div>
   );
 };
